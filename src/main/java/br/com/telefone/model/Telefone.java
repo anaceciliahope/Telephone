@@ -1,11 +1,14 @@
 package br.com.telefone.model;
 
+import br.com.telefone.model.enums.TipoTelefone;
+
 import java.util.Objects;
 
 public class Telefone {
     private Integer ddi;
     private Integer ddd;
     private Long numero;
+    private TipoTelefone tipoTelefone;
     public Telefone(Integer ddi, Integer ddd, Long numero) {
         this.ddi = ddi;
         this.ddd = ddd;
@@ -34,13 +37,25 @@ public class Telefone {
     public void setNumero(Long numero) {
         this.numero = numero;
     }
+
+    public TipoTelefone getTipoTelefone() {
+        return tipoTelefone;
+    }
+
+    public void setTipoTelefone(TipoTelefone tipoTelefone) {
+        this.tipoTelefone = tipoTelefone;
+    }
+
     @Override
     public String toString() {
-        return "Telefone:" +
-                " ddi: " + ddi +
-                " ddd: " + ddd +
-                " numero: " + numero;
+        return "Telefone{" +
+                "ddi=" + ddi +
+                ", ddd=" + ddd +
+                ", numero=" + numero +
+                ", tipoTelefone=" + tipoTelefone +
+                '}';
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
