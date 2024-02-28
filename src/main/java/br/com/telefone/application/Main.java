@@ -2,6 +2,7 @@ package br.com.telefone.application;
 
 import br.com.telefone.model.Contato;
 import br.com.telefone.model.Telefone;
+import br.com.telefone.model.enums.TipoTelefone;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +19,13 @@ public class Main {
         while (opcao != 0) {
             if (opcao == 1) {
                 cadastrarContatos();
+                listarContatos();
             } else {
                 System.out.println("Efetuando Ligação...");
             }
+            System.out.println("1- Cadastrar Contato\n2- Efetuar Ligação");
+            opcao = teclado.nextInt();
         }
-        System.out.println("1- Cadastrar Contato\n2- Efetuar Ligação");
-        opcao = teclado.nextInt();
     }
 
     public static void cadastrarContatos() {
@@ -43,7 +45,9 @@ public class Main {
         adicionarOutrosTelefones(contato);
         if (!contatos.contains(contato)) {
             contatos.add(contato);
-            System.out.print("CONTATO CADASTRADO COM SUCESSO!\n");
+            TipoTelefone tipoTelefone = TipoTelefone.TELEFONE_PRINCIPAl;
+            System.out.print("TELEFONE- " + tipoTelefone.getMensagem() + " ");
+            System.out.print("CADASTRADO COM SUCESSO!\n");
         } else {
             System.out.print("CONTATO JÁ CADASTRADO.\n");
         }
@@ -54,7 +58,6 @@ public class Main {
         System.out.println(mensagem);
         Integer opcao2 = teclado.nextInt();
         while (opcao2 != 0) {
-
             if (opcao2 == 1) {
                 System.out.print("Informe o DDI: ");
                 Integer ddi = teclado.nextInt();
@@ -64,7 +67,9 @@ public class Main {
                 Long numero = teclado.nextLong();
                 Telefone telefone = new Telefone(ddi, ddd, numero);
                 contato.getTelefones().add(telefone);
-                System.out.print("Adicionado com sucesso. ");
+                TipoTelefone tipoTelefone = TipoTelefone.TELEFONE_ADICIONAL;
+                System.out.print("TELEFONE- " + tipoTelefone.getMensagem() + " ");
+                System.out.print("Adicionado com sucesso. " + "\n");
             } else {
                 System.out.println("Opção invalida.");
             }
