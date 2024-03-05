@@ -52,7 +52,7 @@ public class Telefone {
                 "ddi=" + ddi +
                 ", ddd=" + ddd +
                 ", numero=" + numero +
-                ", tipoTelefone=" + tipoTelefone +
+                ", tipoTelefone=" + tipoTelefone.getMensagem() +
                 '}';
     }
 
