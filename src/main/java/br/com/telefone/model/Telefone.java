@@ -48,12 +48,11 @@ public class Telefone {
 
     @Override
     public String toString() {
-        return "Telefone{" +
-                "ddi=" + ddi +
-                ", ddd=" + ddd +
-                ", numero=" + numero +
-                ", tipoTelefone=" + tipoTelefone.getMensagem() +
-                '}';
+        return "Telefone: " +
+                " ddi" + "(" + ddi + ")" +
+                " ddd " + "("+ ddd + ")" +
+                " numero " + numero +
+                " (" + "tipoTelefone: " + tipoTelefone.getMensagem() + ")";
     }
 
     @Override

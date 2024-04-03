@@ -48,11 +48,10 @@ public class Ligacao {
     }
     @Override
     public String toString() {
-        return "Ligacao{" +
-                "origem=" + origem +
-                ", destino=" + destino +
-                ", horaInicio=" + horaInicio +
-                ", horaTermino=" + horaTermino +
-                '}';
+        return "Ligação: " +
+                " origem: " + origem +
+                " destino: " + destino +
+                " horaInicio: " + horaInicio +
+                " horaTermino: " + horaTermino;
     }
 }

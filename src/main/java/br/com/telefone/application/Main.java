@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Main {
     static Scanner teclado = new Scanner(System.in);
     static List<Contato> contatos = new ArrayList<>();
-    static List<Ligacao> listLigacaos = new ArrayList<>();
+    static List<Ligacao> listLigacoes = new ArrayList<>();
 
 
     public static void main(String[] args) {
@@ -28,7 +28,8 @@ public class Main {
                     break;
                 case 2:
                     efetuarLigacao();
-                    listarLigaçoes();
+                    encerrarLigacao();
+                    listarLigacoes();
                     break;
                 case 3:
                     alterarTelefonePrincipal();
@@ -197,32 +198,49 @@ public class Main {
             ligacao.setDestino(destino);
             System.out.println("Efetuando Ligação...");
             ligacao.setHoraInicio(LocalDateTime.now());
-            System.out.println("1- Encerrar ligação\n2- Continuar");
-            int opcao = teclado.nextInt();
-            teclado.nextLine();
-
-            while (opcao != 1) {
-                System.out.println("1- Encerrar ligação\n2- Continuar");
-                opcao = teclado.nextInt();
-                teclado.nextLine();
-            }
-            ligacao.setHoraTermino(LocalDateTime.now());
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             System.out.println("Inicio: " + ligacao.getHoraInicio().format(formatter));
-            System.out.println("Término: " + ligacao.getHoraTermino().format(formatter));
-            listLigacaos.add(ligacao);
+            listLigacoes.add(ligacao);
         } else {
             System.out.println("ERRO");
         }
+    }
+    public static void ligacoesAtivas() {
+        System.out.print("LIGAÇÕES ATIVAS: ");
+        for (int i = 0; i < listLigacoes.size(); i++) {
+            Ligacao ligacao = listLigacoes.get(i);
+            if (ligacao.getHoraInicio() != null && ligacao.getHoraTermino() == null) {
+                System.out.println(i + 1 + ": " + "Origem: " + ligacao.getOrigem().getNumero()
+                + " " + "Destino: " + ligacao.getDestino().getNumero()
+                + " " + "Hora Inicio: " + ligacao.getHoraInicio());
 
+            }
+
+        }
 
     }
+    public static void encerrarLigacaoSelecionada() {
+        System.out.println("ESCOLHA A LIGAÇÃO PARA ENCERRAR: ");
+        int indice = teclado.nextInt();
+        if (indice > 0 && indice <= listLigacoes.size()) {
+            Ligacao ligacao = listLigacoes.get(indice -1);
+            ligacao.setHoraTermino(LocalDateTime.now());
+            System.out.println("Ligação entre " + ligacao.getOrigem().getNumero()
+            + " e " + ligacao.getDestino().getNumero() + " encerrada.");
+        } else {
+            System.out.println("Inválido.");
+        }
 
-    public static void listarLigaçoes() {
+    }
+    public static void encerrarLigacao() {
+        ligacoesAtivas();
+        encerrarLigacaoSelecionada();
+    }
+    public static void listarLigacoes() {
         System.out.println("LIGAÇÕES EFETUADAS: ");
-        for (Ligacao ligaoes : listLigacaos) {
-            System.out.println(ligaoes);
+        for (Ligacao ligacoes : listLigacoes) {
+            System.out.println(ligacoes);
         }
 
     }
