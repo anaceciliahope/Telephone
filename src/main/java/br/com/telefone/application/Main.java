@@ -5,6 +5,7 @@ import br.com.telefone.model.Ligacao;
 import br.com.telefone.model.Telefone;
 import br.com.telefone.model.enums.TipoTelefone;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -16,9 +17,8 @@ public class Main {
     static List<Contato> contatos = new ArrayList<>();
     static List<Ligacao> listLigacoes = new ArrayList<>();
 
-
     public static void main(String[] args) {
-        System.out.println("1- Cadastrar Contato\n2- Efetuar Ligação\n3- Alterar Contato Principal");
+        System.out.println("1- Cadastrar Contato\n2- Efetuar Ligação\n3- Alterar Contato Principal\n4- Relatório");
         Integer opcao = teclado.nextInt();
         while (opcao != 0) {
             switch (opcao) {
@@ -34,15 +34,17 @@ public class Main {
                 case 3:
                     alterarTelefonePrincipal();
                     break;
+                case 4:
+                    relatorioLigacoes();
+                    break;
                 default:
                     System.out.println("Opção Invalida! ");
             }
 
-            System.out.println("1- Cadastrar Contato\n2- Efetuar Ligação\n3- Alterar Contato Principal");
+            System.out.println("1- Cadastrar Contato\n2- Efetuar Ligação\n3- Alterar Contato Principal\n4- Relatório");
             opcao = teclado.nextInt();
         }
     }
-
     public static void cadastrarContatos() {
         System.out.print("Informe o nome: ");
         teclado.nextLine();
@@ -68,7 +70,6 @@ public class Main {
             System.out.print("CONTATO JÁ CADASTRADO.\n");
         }
     }
-
     public static void adicionarOutrosTelefones(Contato contato) {
         String mensagem = "Deseja adicionar outro telefone?\n 1- SIM\n0- NÃO ";
         System.out.println();
@@ -97,14 +98,12 @@ public class Main {
 
         teclado.nextLine();
     }
-
     public static void listarContatos() {
         System.out.println("LISTANDO CONTATOS");
         for (Contato contatos : contatos) {
             System.out.println(contatos);
         }
     }
-
     public static void listarContatos2() {
         System.out.println("CONTATOS: ");
         for (int i = 0; i < contatos.size(); i++) {
@@ -112,7 +111,6 @@ public class Main {
             System.out.println(i + ": " + contato);
         }
     }
-
     public static void listarTelefones(Contato contato) {
         System.out.println("TELEFONES: ");
         for (int i = 0; i < contato.getTelefones().size(); i++) {
@@ -120,7 +118,6 @@ public class Main {
             System.out.println(i + ": " + telefone);
         }
     }
-
     public static void alterarTelefonePrincipal() {
         System.out.print("Escolha o contato para alterar o telefone principal: ");
         listarContatos2();
@@ -212,9 +209,8 @@ public class Main {
             Ligacao ligacao = listLigacoes.get(i);
             if (ligacao.getHoraInicio() != null && ligacao.getHoraTermino() == null) {
                 System.out.println(i + 1 + ": " + "Origem: " + ligacao.getOrigem().getNumero()
-                + " " + "Destino: " + ligacao.getDestino().getNumero()
-                + " " + "Hora Inicio: " + ligacao.getHoraInicio());
-
+                        + " " + "Destino: " + ligacao.getDestino().getNumero()
+                        + " " + "Hora Inicio: " + ligacao.getHoraInicio());
             }
 
         }
@@ -224,10 +220,10 @@ public class Main {
         System.out.println("ESCOLHA A LIGAÇÃO PARA ENCERRAR: ");
         int indice = teclado.nextInt();
         if (indice > 0 && indice <= listLigacoes.size()) {
-            Ligacao ligacao = listLigacoes.get(indice -1);
+            Ligacao ligacao = listLigacoes.get(indice - 1);
             ligacao.setHoraTermino(LocalDateTime.now());
             System.out.println("Ligação entre " + ligacao.getOrigem().getNumero()
-            + " e " + ligacao.getDestino().getNumero() + " encerrada.");
+                    + " e " + ligacao.getDestino().getNumero() + " encerrada.");
         } else {
             System.out.println("Inválido.");
         }
@@ -244,5 +240,25 @@ public class Main {
         }
 
     }
+    public static void relatorioLigacoes() {
+        if (listLigacoes.isEmpty()) {
+            System.out.println("Nunhum relatório de ligação encontrado.");
+        } else {
+            System.out.println("RELATÓRIO DE LIGAÇÕES: ");
+            for (Ligacao ligacao : listLigacoes) {
+                LocalDateTime horaInicio = ligacao.getHoraInicio();
+                LocalDateTime horaTermino = ligacao.getHoraTermino();
 
+                long duracao = Duration.between(horaInicio, horaTermino).getSeconds();
+                long horas = duracao / 3600;
+                long minutos = (duracao % 3600) / 60;
+                long segundos = duracao % 60;
+                System.out.println("Ligação entre: " + ligacao.getOrigem().getNumero() +
+                        " e " + ligacao.getDestino().getNumero());
+                System.out.println("Tempo de duração: " + horas + " horas. " +
+                        minutos + " minutos. " + segundos + " segundo.");
+            }
+        }
+
+    }
 }
