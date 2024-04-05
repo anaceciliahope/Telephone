@@ -18,7 +18,7 @@ public class Main {
     static List<Ligacao> listLigacoes = new ArrayList<>();
 
     public static void main(String[] args) {
-        System.out.println("1- Cadastrar Contato\n2- Efetuar Ligação\n3- Alterar Contato Principal\n4- Relatório");
+        System.out.println("1- Cadastrar Contato\n2- Efetuar Ligação\n3- Alterar Contato Principal\n4- Encerrar Ligação\n5- Relatório");
         Integer opcao = teclado.nextInt();
         while (opcao != 0) {
             switch (opcao) {
@@ -28,20 +28,22 @@ public class Main {
                     break;
                 case 2:
                     efetuarLigacao();
-                    encerrarLigacao();
-                    listarLigacoes();
                     break;
                 case 3:
                     alterarTelefonePrincipal();
                     break;
                 case 4:
+                    encerrarLigacao();
+                    listarLigacoes();
+                    break;
+                case 5:
                     relatorioLigacoes();
                     break;
                 default:
                     System.out.println("Opção Invalida! ");
             }
 
-            System.out.println("1- Cadastrar Contato\n2- Efetuar Ligação\n3- Alterar Contato Principal\n4- Relatório");
+            System.out.println("1- Cadastrar Contato\n2- Efetuar Ligação\n3- Alterar Contato Principal\n4- Encerrar Ligação\n5- Relatório");
             opcao = teclado.nextInt();
         }
     }
@@ -202,6 +204,7 @@ public class Main {
         } else {
             System.out.println("ERRO");
         }
+        main(new String[0]);
     }
     public static void ligacoesAtivas() {
         System.out.print("LIGAÇÕES ATIVAS: ");
@@ -249,16 +252,18 @@ public class Main {
                 LocalDateTime horaInicio = ligacao.getHoraInicio();
                 LocalDateTime horaTermino = ligacao.getHoraTermino();
 
-                long duracao = Duration.between(horaInicio, horaTermino).getSeconds();
-                long horas = duracao / 3600;
-                long minutos = (duracao % 3600) / 60;
-                long segundos = duracao % 60;
-                System.out.println("Ligação entre: " + ligacao.getOrigem().getNumero() +
-                        " e " + ligacao.getDestino().getNumero());
-                System.out.println("Tempo de duração: " + horas + " horas. " +
-                        minutos + " minutos. " + segundos + " segundo.");
+                if (horaInicio != null && horaTermino != null) {
+                    long duracao = Duration.between(horaInicio, horaTermino).getSeconds();
+                    long horas = duracao / 3600;
+                    long minutos = (duracao % 3600) / 60;
+                    long segundos = duracao % 60;
+                    System.out.println("Ligação entre: " + ligacao.getOrigem().getNumero() +
+                            " e " + ligacao.getDestino().getNumero());
+                    System.out.println("Tempo de duração: " + horas + " horas. " +
+                            minutos + " minutos. " + segundos + " segundo.");
+                }
             }
-        }
 
+        }
     }
 }
