@@ -8,9 +8,8 @@ import br.com.telefone.model.enums.TipoTelefone;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     static Scanner teclado = new Scanner(System.in);
@@ -18,7 +17,7 @@ public class Main {
     static List<Ligacao> listLigacoes = new ArrayList<>();
 
     public static void main(String[] args) {
-        System.out.println("1- Cadastrar Contato\n2- Efetuar Ligação\n3- Alterar Contato Principal\n4- Encerrar Ligação\n5- Relatório");
+        System.out.println("1- Cadastrar Contato\n2- Efetuar Ligação\n3- Alterar Contato Principal\n4- Encerrar Ligação\n5- Relatório\n6- Ligação com maior tempo de duração\n0- Sair");
         Integer opcao = teclado.nextInt();
         while (opcao != 0) {
             switch (opcao) {
@@ -39,13 +38,17 @@ public class Main {
                 case 5:
                     relatorioLigacoes();
                     break;
+                case 6:
+                    ligacaoMaiorTempoDeDuracao();
+                    break;
                 default:
                     System.out.println("Opção Invalida! ");
             }
-
-            System.out.println("1- Cadastrar Contato\n2- Efetuar Ligação\n3- Alterar Contato Principal\n4- Encerrar Ligação\n5- Relatório");
+            System.out.println("1- Cadastrar Contato\n2- Efetuar Ligação\n3- Alterar Contato Principal\n4- Encerrar Ligação\n5- Relatório\n6- Ligação com maior tempo de duração\n0- Sair");
             opcao = teclado.nextInt();
+
         }
+        System.out.println("Sessão Finalizada. ");
     }
     public static void cadastrarContatos() {
         System.out.print("Informe o nome: ");
@@ -72,6 +75,7 @@ public class Main {
             System.out.print("CONTATO JÁ CADASTRADO.\n");
         }
     }
+
     public static void adicionarOutrosTelefones(Contato contato) {
         String mensagem = "Deseja adicionar outro telefone?\n 1- SIM\n0- NÃO ";
         System.out.println();
@@ -100,12 +104,14 @@ public class Main {
 
         teclado.nextLine();
     }
+
     public static void listarContatos() {
         System.out.println("LISTANDO CONTATOS");
         for (Contato contatos : contatos) {
             System.out.println(contatos);
         }
     }
+
     public static void listarContatos2() {
         System.out.println("CONTATOS: ");
         for (int i = 0; i < contatos.size(); i++) {
@@ -113,6 +119,7 @@ public class Main {
             System.out.println(i + ": " + contato);
         }
     }
+
     public static void listarTelefones(Contato contato) {
         System.out.println("TELEFONES: ");
         for (int i = 0; i < contato.getTelefones().size(); i++) {
@@ -120,6 +127,7 @@ public class Main {
             System.out.println(i + ": " + telefone);
         }
     }
+
     public static void alterarTelefonePrincipal() {
         System.out.print("Escolha o contato para alterar o telefone principal: ");
         listarContatos2();
@@ -157,6 +165,7 @@ public class Main {
             System.out.println("Índice de contato inválido. ");
         }
     }
+
     public static Telefone selecionarTelefone(String tipo) {
         System.out.println("Escolha o contato " + tipo + ": ");
         listarContatos2();
@@ -186,6 +195,7 @@ public class Main {
         }
         return telefoneSelecionado;
     }
+
     public static void efetuarLigacao() {
         Ligacao ligacao = new Ligacao();
         Telefone origem = selecionarTelefone("Origem");
@@ -206,6 +216,7 @@ public class Main {
         }
         main(new String[0]);
     }
+
     public static void ligacoesAtivas() {
         System.out.print("LIGAÇÕES ATIVAS: ");
         for (int i = 0; i < listLigacoes.size(); i++) {
@@ -219,6 +230,7 @@ public class Main {
         }
 
     }
+
     public static void encerrarLigacaoSelecionada() {
         System.out.println("ESCOLHA A LIGAÇÃO PARA ENCERRAR: ");
         int indice = teclado.nextInt();
@@ -232,10 +244,12 @@ public class Main {
         }
 
     }
+
     public static void encerrarLigacao() {
         ligacoesAtivas();
         encerrarLigacaoSelecionada();
     }
+
     public static void listarLigacoes() {
         System.out.println("LIGAÇÕES EFETUADAS: ");
         for (Ligacao ligacoes : listLigacoes) {
@@ -243,6 +257,7 @@ public class Main {
         }
 
     }
+
     public static void relatorioLigacoes() {
         if (listLigacoes.isEmpty()) {
             System.out.println("Nunhum relatório de ligação encontrado.");
@@ -265,5 +280,29 @@ public class Main {
             }
 
         }
+    }
+    public static void ligacaoMaiorTempoDeDuracao() {
+        if (listLigacoes == null || listLigacoes.isEmpty()) {
+            System.out.println("Não há ligações registradas");
+            return;
+        }
+        List<Ligacao> ligacoesEncerradas = listLigacoes.stream().filter(ligacao -> ligacao.getHoraTermino() != null)
+                .collect(Collectors.toList());
+
+        if (ligacoesEncerradas.isEmpty()) {
+            System.out.println("Não há ligações encerradas registradas. ");
+            return;
+        }
+
+        Ligacao ligacaoMaisLonga = Collections.max(ligacoesEncerradas, Comparator.comparing(ligacao ->
+                Duration.between(ligacao.getHoraInicio(), ligacao.getHoraTermino()).toSeconds()));
+
+        System.out.println("LIGAÇÃO MAIS LONGA: ");
+        System.out.println("Oriem: " + ligacaoMaisLonga.getOrigem().getNumero());
+        System.out.println("Destino: " + ligacaoMaisLonga.getDestino().getNumero());
+        System.out.println("Duração: " + Duration.between(ligacaoMaisLonga.getHoraInicio(), ligacaoMaisLonga.getHoraTermino())
+                .toMinutes() + " minutos");
+
+
     }
 }
