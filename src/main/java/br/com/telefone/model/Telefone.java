@@ -1,10 +1,18 @@
 package br.com.telefone.model;
 
 import br.com.telefone.model.enums.TipoTelefone;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import java.util.Objects;
 
+@Entity
 public class Telefone {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Integer ddi;
     private Integer ddd;
     private Long numero;

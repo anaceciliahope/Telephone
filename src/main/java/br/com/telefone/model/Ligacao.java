@@ -2,6 +2,7 @@ package br.com.telefone.model;
 
 import java.time.LocalDateTime;
 
+
 public class Ligacao {
     private Telefone origem;
     private Telefone destino;
