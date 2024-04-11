@@ -21,7 +21,7 @@ public class Ligacao {
         this.destino = destino;
     }
     public Ligacao() {
-
+        super();
     }
 
     public Long getId() {
