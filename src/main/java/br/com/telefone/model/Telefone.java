@@ -28,6 +28,10 @@ public class Telefone {
         this.numero = numero;
     }
 
+    public Telefone() {
+        super();
+    }
+
     public Integer getDDI() {
         return ddi;
     }
