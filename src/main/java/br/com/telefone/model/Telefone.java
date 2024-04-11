@@ -1,11 +1,10 @@
 package br.com.telefone.model;
 
 import br.com.telefone.model.enums.TipoTelefone;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,6 +16,12 @@ public class Telefone {
     private Integer ddd;
     private Long numero;
     private TipoTelefone tipoTelefone;
+    @ManyToOne
+    private Contato contato;
+    @OneToMany(mappedBy = "origem", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ligacao> ligacoesOrigem;
+    @OneToMany(mappedBy = "destino", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ligacao> ligacoesDestino;
     public Telefone(Integer ddi, Integer ddd, Long numero) {
         this.ddi = ddi;
         this.ddd = ddd;
