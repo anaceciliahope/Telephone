@@ -1,9 +1,17 @@
 package br.com.telefone.model;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
+@Entity
 public class Ligacao {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @ManyToOne
     private Telefone origem;
+    @ManyToOne
     private Telefone destino;
     private LocalDateTime horaInicio;
     private LocalDateTime horaTermino;
@@ -15,6 +23,15 @@ public class Ligacao {
     public Ligacao() {
 
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Telefone getOrigem() {
         return origem;
     }
