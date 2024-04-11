@@ -6,10 +6,13 @@ import java.util.List;
 import java.util.Objects;
 @Entity
 public class Contato {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nome;
+
     @OneToMany(mappedBy = "contato", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Telefone> telefones;
 
