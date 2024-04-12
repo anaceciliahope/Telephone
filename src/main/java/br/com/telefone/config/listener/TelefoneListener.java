@@ -10,6 +10,9 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 @Component
 public class TelefoneListener {
 
@@ -23,14 +26,28 @@ public class TelefoneListener {
     public void handleContextRefresh(ContextRefreshedEvent event) {
         System.out.println("O sistema está em execução. ");
 
-        Telefone telefone = new Telefone(22, 32, 34565436L);
-        telefone.setTipoTelefone(TipoTelefone.TELEFONE_PRINCIPAl);
-        telefone = telefoneRepository.save(telefone);
-        System.out.println(telefone);
+        Random random = new Random();
 
-        Contato contato = new Contato("Ana");
-        contato = contatoRepository.save(contato);
-        System.out.println(contato);
+        for (int i = 0; i < 10; i++) {
+            Contato contato = new Contato("Contato" + i);
+            contato.setTelefones(new ArrayList<>());
+
+
+            int ddi = 55;
+            int ddd = random.nextInt(90) + 10;
+            long numero = random.nextInt(1000000000);
+
+            Telefone telefone = new Telefone(ddi, ddd, numero);
+            telefone.setTipoTelefone(TipoTelefone.TELEFONE_PRINCIPAl);
+
+            telefone.setContato(contato);
+            contato.getTelefones().add(telefone);
+
+            contato = contatoRepository.save(contato);
+            System.out.println("Contato salvo" + contato);
+
+
+        }
 
 
     }
