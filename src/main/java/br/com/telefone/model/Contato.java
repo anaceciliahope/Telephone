@@ -11,11 +11,16 @@ public class Contato {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+    @Column(nullable = false)
     private String nome;
 
     @OneToMany(mappedBy = "contato", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Telefone> telefones;
 
+    public Contato() {
+
+    }
     public List<Telefone> getTelefones() {
         return telefones;
     }

@@ -2,8 +2,6 @@ package br.com.telefone.model;
 
 import br.com.telefone.model.enums.TipoTelefone;
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,6 +59,54 @@ public class Telefone {
 
     public void setTipoTelefone(TipoTelefone tipoTelefone) {
         this.tipoTelefone = tipoTelefone;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getDdi() {
+        return ddi;
+    }
+
+    public void setDdi(Integer ddi) {
+        this.ddi = ddi;
+    }
+
+    public Integer getDdd() {
+        return ddd;
+    }
+
+    public void setDdd(Integer ddd) {
+        this.ddd = ddd;
+    }
+
+    public Contato getContato() {
+        return contato;
+    }
+
+    public void setContato(Contato contato) {
+        this.contato = contato;
+    }
+
+    public List<Ligacao> getLigacoesOrigem() {
+        return ligacoesOrigem;
+    }
+
+    public void setLigacoesOrigem(List<Ligacao> ligacoesOrigem) {
+        this.ligacoesOrigem = ligacoesOrigem;
+    }
+
+    public List<Ligacao> getLigacoesDestino() {
+        return ligacoesDestino;
+    }
+
+    public void setLigacoesDestino(List<Ligacao> ligacoesDestino) {
+        this.ligacoesDestino = ligacoesDestino;
     }
 
     @Override
